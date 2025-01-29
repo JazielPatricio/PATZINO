@@ -1,0 +1,90 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    background-color: #474545ee;
+}
+
+.logo {
+    max-width: 5rem; /* Puedes ajustar este valor dependiendo de lo grande que quieras el logo */
+    transition: all 0.3s ease; /* Añadir transición para un cambio suave de tamaño */
+}
+
+.nav-list {
+    list-style-type: none;
+    display: flex;
+    gap: 1rem;
+}
+
+.nav-list li a {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.abrir-menu,
+.cerrar-menu {
+    display: none;
+}
+
+@media screen and (max-width: 580px) {
+    /* Tamaño del icono de la hamburguesa */
+    .abrir-menu,
+    .cerrar-menu {
+        display: block;
+        border: 0;
+        font-size: 2.5rem; /* Aumenta el tamaño del icono */
+        background-color: transparent;
+        cursor: pointer;
+    }
+
+    .abrir-menu {
+        color: #1c1c1c;
+    }
+
+    .cerrar-menu {
+        color: #ecececec;
+    }
+
+    /* Aumentar el tamaño del logo en pantallas pequeñas */
+    .logo {
+        max-width: 8rem; /* Ajusta el tamaño del logo, puedes aumentarlo más si lo deseas */
+    }
+
+    .nav {
+        opacity: 0;
+        visibility: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 1rem;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #1c1c1c;
+        padding: 2rem;
+        box-shadow: 0 0 0 100vmax rgb(0, 0, 0, .5);
+    }
+
+    .nav-visible {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .nav-list {
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .nav-list a {
+        color: #ecececec;
+    }
+}
