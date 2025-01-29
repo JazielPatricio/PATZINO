@@ -14,8 +14,7 @@ header {
 }
 
 .logo {
-    max-width: 5rem; /* Puedes ajustar este valor dependiendo de lo grande que quieras el logo */
-    transition: all 0.3s ease; /* Añadir transición para un cambio suave de tamaño */
+    max-width: 5rem;
 }
 
 .nav-list {
@@ -27,6 +26,9 @@ header {
 .nav-list li a {
     text-decoration: none;
     color: #ffffff;
+    font-size: 1rem; /* Reducción del tamaño del texto */
+    padding: 0.5rem 1rem; /* Ajustamos el padding para hacerlo más compacto */
+    display: block;
 }
 
 .abrir-menu,
@@ -34,13 +36,13 @@ header {
     display: none;
 }
 
-@media screen and (max-width: 580px) {
-    /* Tamaño del icono de la hamburguesa */
+@media screen and (max-width: 550px) {
+    /* Hacemos más pequeño el tamaño de los íconos del menú */
     .abrir-menu,
     .cerrar-menu {
         display: block;
         border: 0;
-        font-size: 2.5rem; /* Aumenta el tamaño del icono */
+        font-size: 1.5rem; /* Hacemos los íconos más grandes y visibles */
         background-color: transparent;
         cursor: pointer;
     }
@@ -53,24 +55,19 @@ header {
         color: #ecececec;
     }
 
-    /* Aumentar el tamaño del logo en pantallas pequeñas */
-    .logo {
-        max-width: 8rem; /* Ajusta el tamaño del logo, puedes aumentarlo más si lo deseas */
-    }
-
     .nav {
         opacity: 0;
         visibility: hidden;
         display: flex;
         flex-direction: column;
-        align-items: flex-end;
-        gap: 1rem;
+        align-items: center; /* Alineamos los enlaces al centro */
+        gap: 0.5rem; /* Reducimos el espacio entre los enlaces */
         position: absolute;
         top: 0;
         right: 0;
         bottom: 0;
         background-color: #1c1c1c;
-        padding: 2rem;
+        padding: 1.5rem 1rem; /* Reducimos el padding para hacerlo más compacto */
         box-shadow: 0 0 0 100vmax rgb(0, 0, 0, .5);
     }
 
@@ -81,10 +78,14 @@ header {
 
     .nav-list {
         flex-direction: column;
-        align-items: flex-end;
+        align-items: center; /* Centrar los elementos en dispositivos móviles */
+        width: 100%;
     }
 
-    .nav-list a {
+    .nav-list li a {
         color: #ecececec;
+        font-size: 1.1rem; /* Ajustamos el tamaño de fuente */
+        padding: 0.75rem 1rem; /* Más pequeño para que se vea más compacto */
     }
 }
+
