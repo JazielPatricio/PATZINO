@@ -1,0 +1,103 @@
+/* perfil.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f8fa;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #1da1f2; /* Azul Twitter */
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+h1 {
+    margin: 0;
+    font-size: 2em;
+}
+
+form {
+    width: 80%;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 15px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+form textarea {
+    width: 100%;
+    height: 150px;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #e1e8ed;
+    border-radius: 5px;
+    font-size: 1em;
+    color: #14171a;
+}
+
+form button {
+    padding: 10px 20px;
+    background-color: #1da1f2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #1991d3;
+}
+
+/* Estilo para las publicaciones */
+.tweet {
+    width: 80%;
+    max-width: 600px;
+    margin: 20px auto;
+    background-color: white;
+    border: 1px solid #e1e8ed;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.perfil {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.foto-perfil {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.info-perfil {
+    display: flex;
+    flex-direction: column;
+}
+
+.nombre {
+    font-weight: bold;
+    color: #1da1f2; /* Color azul típico de Twitter */
+}
+
+.fecha {
+    font-size: 0.9em;
+    color: #657786; /* Color gris claro para la fecha */
+}
+
+.contenido-tweet {
+    margin-top: 10px;
+}
+
+.contenido-tweet p {
+    font-size: 1.1em;
+    color: #14171a;
+    line-height: 1.5;
+}
