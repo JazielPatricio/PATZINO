@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Ejecutar la consulta
     if ($stmt->execute()) {
-        echo "Registro exitoso. <a href='login.html'>Inicia sesión</a>";
+        echo "Registro exitoso. <a href='../html/login.html'>Inicia sesión</a>";
     } else {
         echo "Error al registrar el usuario. Por favor, intenta de nuevo más tarde.";
     }
