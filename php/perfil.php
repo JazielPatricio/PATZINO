@@ -40,6 +40,9 @@ if ($result->num_rows > 0) {
     echo "<h1>Bienvenido, " . $usuario['nombre'] . "</h1>";
     echo "<p>Correo: " . $usuario['correo'] . "</p>";
     echo "<p>Fecha de registro: " . $usuario['fecha_registro'] . "</p>";
+    
+    // Mostrar enlace de cierre de sesión
+    echo '<a href="logout.php">Cerrar sesión</a>';
 } else {
     echo "No se pudo encontrar el perfil del usuario.";
 }

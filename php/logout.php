@@ -2,7 +2,7 @@
 // Iniciar sesión para poder destruirla
 session_start();
 
-// Verificar si la sesión está activa antes de destruirla
+// Verificar si la sesión está activa
 if (isset($_SESSION["usuario_id"])) {
     // Eliminar todas las variables de la sesión
     session_unset();  // Elimina todas las variables de la sesión
@@ -15,6 +15,6 @@ if (isset($_SESSION["usuario_id"])) {
 }
 
 // Redirigir al usuario al inicio de sesión
-header("Location: https://www.tusitio.com/html/login.html");  // Usa la URL completa si es necesario
+header("Location: ../html/login.html");  // O la URL completa si lo prefieres
 exit();
 ?>
