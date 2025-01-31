@@ -54,7 +54,6 @@ $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $usuario_id);  // "i" para entero (ID del usuario)
 $stmt->execute();
 $result = $stmt->get_result();
-
 ?>
 
 <!DOCTYPE html>
@@ -87,10 +86,16 @@ $result = $stmt->get_result();
         if ($result->num_rows > 0) {
             // Mostrar las publicaciones
             while ($publicacion = $result->fetch_assoc()) {
-                echo "<div class='publicacion'>";
-                echo "<p><strong>Publicado el:</strong> " . $publicacion["fecha_publicacion"] . "</p>";
-                echo "<p>" . nl2br($publicacion["contenido"]) . "</p>";  // nl2br convierte saltos de línea en <br>
-                echo "</div>";
+                echo "<div class='tweet'>";
+                echo "<div class='perfil'>";
+                echo "<img class='foto-perfil' src='../imagenes/FotoDePerfil.jpeg' alt='Foto de perfil'>";  // Imagen de perfil
+                echo "<div class='info-perfil'>";
+                echo "<span class='nombre'>" . $_SESSION["usuario_nombre"] . "</span>";  // Nombre del usuario
+                echo "<span class='fecha'>" . $publicacion["fecha_publicacion"] . "</span>";  // Fecha de la publicación
+                echo "</div>";  // Cierre de info-perfil
+                echo "</div>";  // Cierre de perfil
+                echo "<div class='contenido-tweet'><p>" . nl2br($publicacion["contenido"]) . "</p></div>";  // Contenido de la publicación
+                echo "</div>";  // Cierre de tweet
             }
         } else {
             echo "<p>No tienes publicaciones aún.</p>";
