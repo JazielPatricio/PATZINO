@@ -1,19 +1,19 @@
 <?php
-// Iniciar sesión para acceder a las variables de sesión
+// Iniciar sesión para poder acceder a las variables de sesión
 session_start();
 
 // Verificar si el usuario está autenticado
 if (!isset($_SESSION["usuario_id"])) {
     // Si no hay sesión activa, redirigir al inicio de sesión
-    header("Location: ../html/login.html");
+    header("Location: login.php");
     exit();  // Detener la ejecución del script
 }
 
 // Conectar a la base de datos
 $host = "localhost";
-$usuario_db = "u892208103_Jaziel";  // Cambia por tu usuario de base de datos
-$contraseña_db = "@Sistemas27";     // Cambia por tu contraseña
-$nombre_db = "u892208103_usuarios_db";  // Nombre de la base de datos
+$usuario_db = "u892208103_Jaziel";
+$contraseña_db = "@Sistemas27";
+$nombre_db = "u892208103_usuarios_db";
 
 $conn = new mysqli($host, $usuario_db, $contraseña_db, $nombre_db);
 
@@ -25,30 +25,36 @@ if ($conn->connect_error) {
 // Obtener el ID del usuario desde la sesión
 $usuario_id = $_SESSION["usuario_id"];
 
-// Obtener los datos del usuario desde la base de datos (como el nombre)
-$sql = "SELECT nombre FROM usuarios WHERE id = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $usuario_id);  // "i" para entero (ID del usuario)
+// Publicar contenido
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['publicar'])) {
+    // Obtener contenido de la publicación
+    $contenido = htmlspecialchars(trim($_POST["contenido"]));  // Sanitizar contenido
 
-$stmt->execute();
-$result = $stmt->get_result();
+    // Validar que el campo no esté vacío
+    if (!empty($contenido)) {
+        // Insertar publicación en la base de datos
+        $sql = "INSERT INTO publicaciones (usuario_id, contenido) VALUES (?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("is", $usuario_id, $contenido);  // "i" para entero y "s" para string
 
-// Verificar si el usuario existe
-if ($result->num_rows > 0) {
-    $usuario = $result->fetch_assoc();
-    $usuario_nombre = $usuario['nombre'];  // Guardamos el nombre del usuario
-} else {
-    echo "No se pudo encontrar el perfil del usuario.";
+        if ($stmt->execute()) {
+            echo "¡Publicación exitosa!";
+        } else {
+            echo "Hubo un error al publicar. Intenta nuevamente.";
+        }
+        $stmt->close();
+    } else {
+        echo "Por favor, ingresa un contenido para la publicación.";
+    }
 }
 
 // Obtener las publicaciones del usuario
 $sql = "SELECT contenido, fecha_publicacion FROM publicaciones WHERE usuario_id = ? ORDER BY fecha_publicacion DESC";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $_SESSION["usuario_id"]);
+$stmt->bind_param("i", $usuario_id);  // "i" para entero (ID del usuario)
 $stmt->execute();
 $result = $stmt->get_result();
 
-// Mostrar las publicaciones del usuario
 ?>
 
 <!DOCTYPE html>
@@ -56,45 +62,43 @@ $result = $stmt->get_result();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil - <?php echo $usuario_nombre; ?></title>
+    <title>Perfil de Usuario</title>
     <link rel="stylesheet" href="../css/perfil.css">
-    <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="../css/blog.css">
 </head>
 <body>
     <header>
-        <h1>Bienvenido, <?php echo $usuario_nombre; ?></h1>
+        <h1>Bienvenido, <?php echo $_SESSION["usuario_nombre"]; ?></h1>
+        <a href="logout.php">Cerrar sesión</a>
     </header>
 
-    <!-- Formulario para agregar una nueva publicación -->
-    <form action="perfil.php" method="POST">
-        <textarea name="contenido" placeholder="Escribe una publicación..." required></textarea>
-        <button type="submit">Publicar</button>
-    </form>
+    <!-- Formulario para publicar -->
+    <section class="publicar">
+        <h2>Haz una publicación</h2>
+        <form action="perfil.php" method="POST">
+            <textarea name="contenido" placeholder="Escribe tu publicación aquí..." required></textarea>
+            <button type="submit" name="publicar">Publicar</button>
+        </form>
+    </section>
 
-    <!-- Mostrar las publicaciones -->
-    <?php
-    while ($publicacion = $result->fetch_assoc()) {
-        echo '<div class="tweet">';
-        echo '    <div class="perfil">';
-        echo '        <img src="../imagenes/FotoDePerfil.jpeg" alt="Foto De Perfil" class="foto-perfil">';
-        echo '        <div class="info-perfil">';
-        echo '            <span class="nombre">' . $usuario_nombre . '</span>';
-        echo '            <span class="fecha">' . date("d M Y H:i", strtotime($publicacion['fecha_publicacion'])) . '</span>';
-        echo '        </div>';
-        echo '    </div>';
-        echo '    <div class="contenido-tweet">';
-        echo '        <p>' . htmlspecialchars($publicacion['contenido']) . '</p>';
-        echo '    </div>';
-        echo '</div>';
-    }
-    ?>
+    <!-- Mostrar publicaciones -->
+    <section class="publicaciones">
+        <h2>Publicaciones</h2>
+        <?php
+        if ($result->num_rows > 0) {
+            // Mostrar las publicaciones
+            while ($publicacion = $result->fetch_assoc()) {
+                echo "<div class='publicacion'>";
+                echo "<p><strong>Publicado el:</strong> " . $publicacion["fecha_publicacion"] . "</p>";
+                echo "<p>" . nl2br($publicacion["contenido"]) . "</p>";  // nl2br convierte saltos de línea en <br>
+                echo "</div>";
+            }
+        } else {
+            echo "<p>No tienes publicaciones aún.</p>";
+        }
 
+        $stmt->close();
+        $conn->close();
+        ?>
+    </section>
 </body>
 </html>
-
-<?php
-// Cerrar la conexión
-$stmt->close();
-$conn->close();
-?>
