@@ -2,6 +2,11 @@
 // Iniciar sesión para poder usar las variables de sesión
 session_start();
 
+// Generar un token CSRF si no existe
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));  // Genera un token CSRF seguro
+}
+
 // Datos de conexión a la base de datos
 $host = "localhost";
 $usuario_db = "u892208103_Jaziel";
@@ -16,15 +21,10 @@ if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
 
-// Generar un token CSRF si no existe
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));  // Genera un token seguro
-}
-
 // Verificar si el formulario fue enviado
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Verificar el token CSRF
-    if ($_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    // Verificar si el token CSRF es válido
+    if (empty($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
         echo "Error CSRF: El token no es válido.";
         exit();
     }
@@ -70,10 +70,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Cerrar la declaración
     $stmt->close();
-}
 
-// Cerrar la conexión
-$conn->close();
+    // Cerrar la conexión
+    $conn->close();
+}
 ?>
 
 <!DOCTYPE html>
