@@ -3,10 +3,10 @@
 session_start();
 
 // Datos de conexión a la base de datos
-$host = "localhost"; // Cambia a la dirección del servidor si está en uno diferente
-$usuario_db = "u892208103_Jaziel"; // Nombre de usuario de la base de datos
-$contraseña_db = "@Sistemas27"; // Contraseña de la base de datos
-$nombre_db = "u892208103_usuarios_db"; // Nombre de la base de datos
+$host = "localhost";
+$usuario_db = "u892208103_Jaziel";
+$contraseña_db = "@Sistemas27";
+$nombre_db = "u892208103_usuarios_db";
 
 // Crear conexión a la base de datos
 $conn = new mysqli($host, $usuario_db, $contraseña_db, $nombre_db);
