@@ -107,7 +107,7 @@ $conn->close();
         <h2>Mi Perfil</h2>
         <!-- Mostrar foto de perfil -->
         <div class="foto-perfil">
-            <img src="<?php echo '../imagenes/perfiles/' . $usuario['foto_perfil']; ?>" alt="Foto de perfil" width="150" height="150">
+            <img src="<?php echo (isset($usuario['foto_perfil']) && $usuario['foto_perfil'] != '') ? '../imagenes/perfiles/' . basename($usuario['foto_perfil']) : '../imagenes/perfiles/default.jpg'; ?>" alt="Foto de perfil" width="150" height="150">
         </div>
         <p><strong>Nombre:</strong> <?php echo $usuario["nombre"]; ?></p>
         <p><strong>Correo:</strong> <?php echo $usuario["correo"]; ?></p>
@@ -132,7 +132,7 @@ $conn->close();
                 echo "<div class='tweet'>";
                 // Mostrar foto de perfil junto a la publicación
                 echo "<div class='perfil'>";
-                echo "<img class='foto-perfil' src='../imagenes/perfiles/" . $usuario["foto_perfil"] . "' alt='Foto de perfil'>";
+                echo "<img class='foto-perfil' src='../imagenes/perfiles/" . (isset($usuario['foto_perfil']) ? basename($usuario['foto_perfil']) : 'default.jpg') . "' alt='Foto de perfil'>";
                 echo "<div class='info-perfil'>";
                 echo "<span class='nombre'>" . $usuario["nombre"] . "</span>";
                 echo "<span class='fecha'>" . $publicacion["fecha_publicacion"] . "</span>";
