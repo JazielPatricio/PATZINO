@@ -1,8 +1,7 @@
 <?php
-// Iniciar sesión para poder usar las variables de sesión
-session_start();
+session_start();  // Asegúrate de que esta línea esté al principio
 
-// Verificar si el token CSRF está configurado
+// Generar el token CSRF si no existe
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));  // Genera un token CSRF seguro
 }
@@ -97,7 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </header>
 
     <form action="login.php" method="POST">
-        <!-- Token CSRF -->
+        <!-- Campo oculto para el token CSRF -->
         <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
 
         <label for="correo">Correo electrónico:</label>
