@@ -1,11 +1,6 @@
 <?php
 session_start();  // Asegúrate de que esta línea esté al principio
 
-// Generar el token CSRF si no existe
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));  // Genera un token CSRF seguro
-}
-
 // Datos de conexión a la base de datos
 $host = "localhost";
 $usuario_db = "u892208103_Jaziel";
@@ -22,19 +17,6 @@ if ($conn->connect_error) {
 
 // Verificar si el formulario fue enviado
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Depuración: Verificar el token CSRF recibido
-    if (empty($_POST['csrf_token'])) {
-        echo "Error: El token CSRF no se recibió.";
-    } else {
-        echo "Token CSRF recibido: " . $_POST['csrf_token'] . "<br>";
-    }
-
-    // Verificar si el token CSRF es válido
-    if (empty($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-        echo "Error CSRF: El token no es válido.";
-        exit();
-    }
-
     // Obtener y sanitizar los datos del formulario
     $correo = htmlspecialchars(trim($_POST["correo"]));  // Sanitizar y eliminar espacios
     $contrasena = trim($_POST["contrasena"]);  // Eliminar espacios extra de la contraseña
@@ -96,9 +78,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </header>
 
     <form action="login.php" method="POST">
-        <!-- Campo oculto para el token CSRF -->
-        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
-
         <label for="correo">Correo electrónico:</label>
         <input type="email" id="correo" name="correo" required>
 
