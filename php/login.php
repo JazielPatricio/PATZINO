@@ -16,8 +16,19 @@ if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
 
+// Generar un token CSRF si no existe
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));  // Genera un token seguro
+}
+
 // Verificar si el formulario fue enviado
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Verificar el token CSRF
+    if ($_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        echo "Error CSRF: El token no es válido.";
+        exit();
+    }
+
     // Obtener y sanitizar los datos del formulario
     $correo = htmlspecialchars(trim($_POST["correo"]));  // Sanitizar y eliminar espacios
     $contrasena = trim($_POST["contrasena"]);  // Eliminar espacios extra de la contraseña
@@ -64,3 +75,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Cerrar la conexión
 $conn->close();
 ?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión</title>
+    <link rel="stylesheet" href="../css/estilos.css">
+</head>
+<body>
+    <header>
+        <h1>Iniciar sesión</h1>
+    </header>
+
+    <form action="login.php" method="POST">
+        <!-- Token CSRF -->
+        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+
+        <label for="correo">Correo electrónico:</label>
+        <input type="email" id="correo" name="correo" required>
+
+        <label for="contrasena">Contraseña:</label>
+        <input type="password" id="contrasena" name="contrasena" required>
+
+        <button type="submit">Iniciar sesión</button>
+    </form>
+</body>
+</html>

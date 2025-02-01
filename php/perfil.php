@@ -28,7 +28,7 @@ $usuario_id = $_SESSION["usuario_id"];
 // Publicar contenido
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['publicar'])) {
     // Obtener contenido de la publicación
-    $contenido = htmlspecialchars(trim($_POST["contenido"]));  // Sanitizar contenido
+    $contenido = htmlspecialchars(trim($_POST["contenido"]));  // Sanitizar contenido (XSS)
 
     // Validar que el campo no esté vacío
     if (!empty($contenido)) {
@@ -94,7 +94,7 @@ $result = $stmt->get_result();
                 echo "<span class='fecha'>" . $publicacion["fecha_publicacion"] . "</span>";  // Fecha de la publicación
                 echo "</div>";  // Cierre de info-perfil
                 echo "</div>";  // Cierre de perfil
-                echo "<div class='contenido-tweet'><p>" . nl2br($publicacion["contenido"]) . "</p></div>";  // Contenido de la publicación
+                echo "<div class='contenido-tweet'><p>" . nl2br(htmlspecialchars($publicacion["contenido"])) . "</p></div>";  // Sanitizar contenido (XSS)
                 echo "</div>";  // Cierre de tweet
             }
         } else {
