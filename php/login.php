@@ -2,7 +2,7 @@
 // Iniciar sesión para poder usar las variables de sesión
 session_start();
 
-// Generar un token CSRF si no existe
+// Verificar si el token CSRF está configurado
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));  // Genera un token CSRF seguro
 }
@@ -23,6 +23,13 @@ if ($conn->connect_error) {
 
 // Verificar si el formulario fue enviado
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Depuración: Verificar el token CSRF recibido
+    if (empty($_POST['csrf_token'])) {
+        echo "Error: El token CSRF no se recibió.";
+    } else {
+        echo "Token CSRF recibido: " . $_POST['csrf_token'] . "<br>";
+    }
+
     // Verificar si el token CSRF es válido
     if (empty($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
         echo "Error CSRF: El token no es válido.";
