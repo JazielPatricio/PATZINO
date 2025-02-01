@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['foto_perfil'])) {
     if (getimagesize($_FILES["foto_perfil"]["tmp_name"]) === false) {
         echo "El archivo no es una imagen válida.";
     } else {
-        // Verificar el tamaño del archivo (max 2MB)
+        // Verificar el tamaño del archivo (máximo 2MB)
         if ($_FILES["foto_perfil"]["size"] > 2000000) {
             echo "El archivo es demasiado grande. Máximo permitido: 2MB.";
         } else {
@@ -57,6 +57,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['foto_perfil'])) {
                     $stmt_update->execute();
                     $stmt_update->close();
                     echo "Foto de perfil actualizada exitosamente.";
+                    // Actualizar el nombre de la imagen de perfil en la variable de sesión
+                    $_SESSION["foto_perfil"] = basename($target_file);
                 } else {
                     echo "Hubo un error al subir la foto.";
                 }
