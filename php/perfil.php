@@ -20,51 +20,26 @@ if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
 
-// Obtener el ID del usuario desde la sesión
+// Obtener los datos del usuario
 $usuario_id = $_SESSION["usuario_id"];
-
-// Enviar solicitud de amistad
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["solicitar_amigo"])) {
-    $amigo_id = $_POST["amigo_id"];
-
-    // Verificar si ya existe una solicitud
-    $sql = "SELECT * FROM amigos WHERE (usuario_id = ? AND amigo_id = ?) OR (usuario_id = ? AND amigo_id = ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("iiii", $usuario_id, $amigo_id, $amigo_id, $usuario_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows > 0) {
-        echo "Ya tienes una solicitud pendiente o ya son amigos.";
-    } else {
-        // Enviar solicitud de amistad
-        $sql = "INSERT INTO amigos (usuario_id, amigo_id, estado) VALUES (?, ?, 'pendiente')";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ii", $usuario_id, $amigo_id);
-
-        if ($stmt->execute()) {
-            echo "Solicitud de amistad enviada.";
-        } else {
-            echo "Error al enviar la solicitud.";
-        }
-    }
-
-    $stmt->close();
-}
-
-// Obtener las publicaciones del usuario
-$sql = "SELECT contenido, fecha_publicacion FROM publicaciones WHERE usuario_id = ? ORDER BY fecha_publicacion DESC";
+$sql = "SELECT nombre, correo FROM usuarios WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $usuario_id);
 $stmt->execute();
 $result = $stmt->get_result();
+$usuario = $result->fetch_assoc();
 
-// Buscar otros usuarios para enviar solicitud
-$sql = "SELECT id, nombre FROM usuarios WHERE id != ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $usuario_id);
-$stmt->execute();
-$usuarios_result = $stmt->get_result();
+// Obtener las publicaciones del usuario
+$sql_publicaciones = "SELECT contenido, fecha_publicacion FROM publicaciones WHERE usuario_id = ? ORDER BY fecha_publicacion DESC";
+$stmt_publicaciones = $conn->prepare($sql_publicaciones);
+$stmt_publicaciones->bind_param("i", $usuario_id);
+$stmt_publicaciones->execute();
+$result_publicaciones = $stmt_publicaciones->get_result();
+
+// Cerrar las conexiones
+$stmt->close();
+$stmt_publicaciones->close();
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -77,34 +52,35 @@ $usuarios_result = $stmt->get_result();
 </head>
 <body>
     <header>
-        <h1>Bienvenido, <?php echo $_SESSION["usuario_nombre"]; ?></h1>
+        <h1>Bienvenido, <?php echo $usuario["nombre"]; ?></h1>
         <a href="logout.php">Cerrar sesión</a>
     </header>
 
-    <!-- Formulario para publicar -->
-    <section class="publicar">
-        <h2>Haz una publicación</h2>
-        <form action="perfil.php" method="POST">
-            <textarea name="contenido" placeholder="Escribe tu publicación aquí..." required></textarea>
-            <button type="submit" name="publicar">Publicar</button>
-        </form>
+    <!-- Navegación entre apartados -->
+    <nav>
+        <ul>
+            <li><a href="inicio.php">Inicio</a></li>
+            <li><a href="amigos.php">Mis Amigos</a></li>
+        </ul>
+    </nav>
+
+    <!-- Información del usuario -->
+    <section class="informacion">
+        <h2>Mi Perfil</h2>
+        <p><strong>Nombre:</strong> <?php echo $usuario["nombre"]; ?></p>
+        <p><strong>Correo:</strong> <?php echo $usuario["correo"]; ?></p>
     </section>
 
-    <!-- Mostrar publicaciones -->
+    <!-- Mostrar publicaciones propias -->
     <section class="publicaciones">
-        <h2>Publicaciones</h2>
+        <h2>Mis Publicaciones</h2>
         <?php
-        if ($result->num_rows > 0) {
-            while ($publicacion = $result->fetch_assoc()) {
+        if ($result_publicaciones->num_rows > 0) {
+            // Mostrar las publicaciones
+            while ($publicacion = $result_publicaciones->fetch_assoc()) {
                 echo "<div class='tweet'>";
-                echo "<div class='perfil'>";
-                echo "<img class='foto-perfil' src='../imagenes/FotoDePerfil.jpeg' alt='Foto de perfil'>";
-                echo "<div class='info-perfil'>";
-                echo "<span class='nombre'>" . $_SESSION["usuario_nombre"] . "</span>";
-                echo "<span class='fecha'>" . $publicacion["fecha_publicacion"] . "</span>";
-                echo "</div>";
-                echo "</div>";
-                echo "<div class='contenido-tweet'><p>" . nl2br($publicacion["contenido"]) . "</p></div>";
+                echo "<p>" . nl2br($publicacion['contenido']) . "</p>";
+                echo "<span class='fecha'>" . $publicacion['fecha_publicacion'] . "</span>";
                 echo "</div>";
             }
         } else {
@@ -112,26 +88,5 @@ $usuarios_result = $stmt->get_result();
         }
         ?>
     </section>
-
-    <!-- Mostrar usuarios para agregar como amigos -->
-    <section class="agregar-amigos">
-        <h2>Usuarios disponibles para agregar</h2>
-        <?php
-        while ($usuario = $usuarios_result->fetch_assoc()) {
-            echo "<div class='usuario'>";
-            echo "<span>" . $usuario["nombre"] . "</span>";
-            echo "<form action='perfil.php' method='POST'>";
-            echo "<input type='hidden' name='amigo_id' value='" . $usuario["id"] . "'>";
-            echo "<button type='submit' name='solicitar_amigo'>Enviar solicitud</button>";
-            echo "</form>";
-            echo "</div>";
-        }
-        ?>
-    </section>
 </body>
 </html>
-
-<?php
-$stmt->close();
-$conn->close();
-?>
