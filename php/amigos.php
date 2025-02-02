@@ -34,6 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     if (isset($_POST['aceptar_amigo'])) {
         $solicitud_id = $_POST['solicitud_id'];
+        // Actualizar estado de la solicitud
         $sql = "UPDATE amigos SET estado = 'aceptado' WHERE id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $solicitud_id);
@@ -46,6 +47,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_param("i", $solicitud_id);
         $stmt->execute();
     }
+    header("Location: amigos.php"); // Redirigir para actualizar la página
+    exit();
 }
 
 // Obtener todos los usuarios disponibles para enviar solicitud
@@ -66,6 +69,16 @@ $stmt->bind_param("i", $usuario_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $solicitudes_pendientes = $result->fetch_all(MYSQLI_ASSOC);
+
+// Obtener la lista de amigos aceptados
+$sql = "SELECT usuarios.id, usuarios.nombre FROM amigos 
+        JOIN usuarios ON (amigos.usuario_id = usuarios.id OR amigos.amigo_id = usuarios.id) 
+        WHERE (amigos.usuario_id = ? OR amigos.amigo_id = ?) AND amigos.estado = 'aceptado' AND usuarios.id != ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("iii", $usuario_id, $usuario_id, $usuario_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$amigos = $result->fetch_all(MYSQLI_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -93,6 +106,11 @@ $solicitudes_pendientes = $result->fetch_all(MYSQLI_ASSOC);
             <button type="submit" name="aceptar_amigo">Aceptar</button>
             <button type="submit" name="rechazar_amigo">Rechazar</button>
         </form>
+    <?php endforeach; ?>
+
+    <h2>Lista de Amigos</h2>
+    <?php foreach ($amigos as $amigo): ?>
+        <p><?= htmlspecialchars($amigo['nombre']) ?></p>
     <?php endforeach; ?>
 </body>
 </html>
