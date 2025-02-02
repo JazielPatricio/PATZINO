@@ -198,7 +198,7 @@ button:hover {
     }
 
     .contenido-tweet img {
-        width: 200px; /* Imagen aún más pequeña en móviles */
+        width: 50px; /* Imagen aún más pequeña en móviles */
     }
 }
 
