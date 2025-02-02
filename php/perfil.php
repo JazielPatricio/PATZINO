@@ -74,7 +74,7 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil de Usuario</title>
-    <link rel="stylesheet" href="../css/perfil2.css"> <!-- Archivo de estilos globales -->
+    <link rel="stylesheet" href="../css/perfil2.css"> <!-- Archivo de estilos -->
 </head>
 <body>
 
@@ -93,9 +93,9 @@ $conn->close();
 <div class="contenedor">
     <h2>Mi Perfil</h2>
 
-    <!-- Foto de perfil -->
+    <!-- Foto de perfil principal (Centrada y grande) -->
     <div class="foto-perfil">
-        <img src="<?php echo isset($usuario['foto_perfil']) ? htmlspecialchars($usuario['foto_perfil']) : '../imagenes/perfiles/default.jpg'; ?>" alt="Foto de perfil">
+        <img class="foto-perfil-principal" src="<?php echo isset($usuario['foto_perfil']) ? htmlspecialchars($usuario['foto_perfil']) : '../imagenes/perfiles/default.jpg'; ?>" alt="Foto de perfil">
     </div>
 
     <div class="info">
@@ -119,8 +119,8 @@ $conn->close();
         <?php if ($result_publicaciones->num_rows > 0): ?>
             <?php while ($publicacion = $result_publicaciones->fetch_assoc()): ?>
                 <div class="tweet">
-                    <div class="perfil">
-                        <img src="<?php echo isset($usuario['foto_perfil']) ? htmlspecialchars($usuario['foto_perfil']) : '../imagenes/perfiles/default.jpg'; ?>" alt="Foto de perfil">
+                    <div class="tweet-header">
+                        <img class="foto-perfil-publicacion" src="<?php echo isset($usuario['foto_perfil']) ? htmlspecialchars($usuario['foto_perfil']) : '../imagenes/perfiles/default.jpg'; ?>" alt="Foto de perfil">
                         <div class="info-perfil">
                             <span class="nombre"><?php echo htmlspecialchars($usuario["nombre"]); ?></span>
                             <span class="fecha"><?php echo htmlspecialchars($publicacion["fecha_publicacion"]); ?></span>
