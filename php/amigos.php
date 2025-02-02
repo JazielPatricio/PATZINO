@@ -61,12 +61,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_param("iiii", $usuario_id, $amigo_id, $amigo_id, $usuario_id);
         $stmt->execute();
     }
-    header("Location: amigos.php"); // Recargar la página para actualizar la lista
+    header("Location: amigos.php");
     exit();
 }
 
 // Obtener todos los usuarios disponibles para enviar solicitud, excluyendo amigos actuales
-$sql = "SELECT id, nombre FROM usuarios WHERE id != ? AND id NOT IN (
+$sql = "SELECT id, nombre, foto_perfil FROM usuarios WHERE id != ? AND id NOT IN (
             SELECT CASE WHEN usuario_id = ? THEN amigo_id ELSE usuario_id END 
             FROM amigos WHERE (usuario_id = ? OR amigo_id = ?) AND estado = 'aceptado')";
 $stmt = $conn->prepare($sql);
@@ -76,7 +76,7 @@ $result = $stmt->get_result();
 $usuarios_disponibles = $result->fetch_all(MYSQLI_ASSOC);
 
 // Obtener solicitudes pendientes
-$sql = "SELECT amigos.id as solicitud_id, usuarios.id as usuario_id, usuarios.nombre 
+$sql = "SELECT amigos.id as solicitud_id, usuarios.id as usuario_id, usuarios.nombre, usuarios.foto_perfil 
         FROM amigos 
         JOIN usuarios ON amigos.usuario_id = usuarios.id 
         WHERE amigo_id = ? AND estado = 'pendiente'";
@@ -106,60 +106,87 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amigos</title>
     <link rel="stylesheet" href="../css/perfil.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        header {
+            background: #007bff;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        header a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+        .contenedor {
+            width: 80%;
+            margin: auto;
+        }
+        .tarjeta {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+        }
+        .foto-perfil {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .rechazar {
+            background: #dc3545;
+        }
+    </style>
 </head>
 <body>
     <header>
         <h1>Amigos</h1>
-        <a href="inicio.php">Inicio</a> | 
+        <a href="inicio.php">Inicio</a>
         <a href="perfil.php">Mi perfil</a>
+        <a href="logout.php">Cerrar sesión</a>
     </header>
 
-    <section class="agregar-amigos">
+    <div class="contenedor">
         <h2>Agregar Amigos</h2>
-        <?php if (!empty($usuarios_disponibles)): ?>
-            <?php foreach ($usuarios_disponibles as $usuario): ?>
+        <?php foreach ($usuarios_disponibles as $usuario): ?>
+            <div class="tarjeta">
+                <img src="<?= htmlspecialchars($usuario['foto_perfil']) ?>" alt="Foto de perfil" class="foto-perfil">
+                <span><?= htmlspecialchars($usuario['nombre']) ?></span>
                 <form method="POST">
                     <input type="hidden" name="amigo_id" value="<?= $usuario['id'] ?>">
-                    <button type="submit" name="agregar_amigo">Agregar a <?= htmlspecialchars($usuario['nombre']) ?></button>
+                    <button type="submit" name="agregar_amigo">Agregar</button>
                 </form>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <p>No hay usuarios disponibles para agregar.</p>
-        <?php endif; ?>
-    </section>
+            </div>
+        <?php endforeach; ?>
 
-    <section class="solicitudes">
         <h2>Solicitudes de Amistad</h2>
-        <?php if (!empty($solicitudes_pendientes)): ?>
-            <?php foreach ($solicitudes_pendientes as $solicitud): ?>
+        <?php foreach ($solicitudes_pendientes as $solicitud): ?>
+            <div class="tarjeta">
+                <img src="<?= htmlspecialchars($solicitud['foto_perfil']) ?>" alt="Foto de perfil" class="foto-perfil">
+                <span><?= htmlspecialchars($solicitud['nombre']) ?> quiere ser tu amigo.</span>
                 <form method="POST">
-                    <p><?= htmlspecialchars($solicitud['nombre']) ?> quiere ser tu amigo.</p>
                     <input type="hidden" name="solicitud_id" value="<?= $solicitud['solicitud_id'] ?>">
                     <button type="submit" name="aceptar_amigo">Aceptar</button>
-                    <button type="submit" name="rechazar_amigo">Rechazar</button>
+                    <button type="submit" name="rechazar_amigo" class="rechazar">Rechazar</button>
                 </form>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <p>No tienes solicitudes pendientes.</p>
-        <?php endif; ?>
-    </section>
-
-    <section class="lista-amigos">
-        <h2>Lista de Amigos</h2>
-        <?php if (!empty($amigos)): ?>
-            <?php foreach ($amigos as $amigo): ?>
-                <div class="amigo">
-                    <img src="<?= htmlspecialchars($amigo['foto_perfil']) ?>" alt="Foto de perfil" class="foto-perfil">
-                    <span class="nombre"><?= htmlspecialchars($amigo['nombre']) ?></span>
-                    <form method="POST">
-                        <input type="hidden" name="amigo_id" value="<?= $amigo['id'] ?>">
-                        <button type="submit" name="eliminar_amigo">Eliminar</button>
-                    </form>
-                </div>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <p>Aún no tienes amigos.</p>
-        <?php endif; ?>
-    </section>
+            </div>
+        <?php endforeach; ?>
+    </div>
 </body>
 </html>
