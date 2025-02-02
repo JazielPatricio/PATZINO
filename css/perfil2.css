@@ -6,29 +6,33 @@ body {
     padding: 0;
 }
 
-/* 📌 Menú de navegación */
+/* 📌 Menú de Navegación */
 .navbar {
     background: #007bff;
     padding: 15px;
     text-align: center;
 }
-
+.navbar .logo {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: white;
+    display: block;
+    margin-bottom: 10px;
+}
 .navbar ul {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
-
 .navbar ul li {
     display: inline;
     margin: 0 15px;
 }
-
 .navbar a {
     color: white;
     text-decoration: none;
     font-weight: bold;
 }
-
 .navbar .logout {
     color: #ffcc00;
 }
@@ -45,19 +49,28 @@ body {
     text-align: center;
 }
 
-/* 📌 Foto de Perfil en Página de Usuario */
+/* 📌 Foto de Perfil */
 .foto-perfil img {
-    width: 150px;
-    height: 150px;
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
     object-fit: cover;
+    border: 3px solid #007bff;
 }
 
-/* 📌 Botón para Subir Foto */
+/* 📌 Información del Usuario */
+.info {
+    margin-top: 15px;
+}
+.info p {
+    font-size: 1.1em;
+    color: #333;
+}
+
+/* 📌 Formulario para Cambiar Foto de Perfil */
 .subir-foto {
     margin-top: 20px;
 }
-
 .btn-subir {
     background: #007bff;
     color: white;
@@ -65,9 +78,31 @@ body {
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
+    border: none;
+    display: inline-block;
+    text-align: center;
+}
+.btn-subir:hover {
+    background: #0056b3;
+}
+input[type="file"] {
+    display: none;
+}
+button {
+    background: #1da1f2;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border: none;
+    margin-top: 10px;
+}
+button:hover {
+    background: #0d95e8;
 }
 
-/* 📌 Sección de Publicaciones */
+/* 📌 Publicaciones (Diseño tipo Tweet) */
 .publicaciones {
     margin-top: 30px;
     text-align: left;
@@ -90,25 +125,19 @@ body {
     background: #f5f8fa;
 }
 
-/* 📌 Diseño de la sección de usuario en cada publicación */
-.tweet .perfil {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
+/* 📌 Foto de perfil en Publicaciones */
 .tweet .perfil img {
     width: 48px;
     height: 48px;
     border-radius: 50%;
     object-fit: cover;
+    margin-right: 12px;
 }
 
-/* 📌 Información del usuario al lado de la foto */
+/* 📌 Información del usuario en Publicaciones */
 .info-perfil {
     display: flex;
     flex-direction: column;
-    justify-content: center;
 }
 
 /* 📌 Nombre y Fecha */
@@ -116,9 +145,7 @@ body {
     font-weight: bold;
     color: #1da1f2;
     font-size: 1em;
-    margin-bottom: 2px;
 }
-
 .fecha {
     font-size: 0.85em;
     color: #657786;
@@ -126,18 +153,21 @@ body {
 
 /* 📌 Contenido del Tweet */
 .contenido-tweet {
-    margin-top: 10px;
+    margin-top: 5px;
     font-size: 1em;
     color: #14171a;
     line-height: 1.4;
-    width: 100%;
-    text-align: left;
 }
 
 /* 📌 Responsividad */
 @media (max-width: 768px) {
     .contenedor {
         width: 95%;
+    }
+
+    .foto-perfil img {
+        width: 100px;
+        height: 100px;
     }
 
     .tweet .perfil img {
@@ -147,24 +177,16 @@ body {
 }
 
 @media (max-width: 400px) {
+    .navbar ul li {
+        display: block;
+        margin: 5px 0;
+    }
+
     .tweet {
         flex-direction: column;
     }
 
-    .tweet .perfil {
-        flex-direction: row;
-    }
-
     .tweet .perfil img {
-        width: 36px;
-        height: 36px;
-    }
-
-    .nombre {
-        font-size: 0.9em;
-    }
-
-    .fecha {
-        font-size: 0.75em;
+        margin-bottom: 10px;
     }
 }
