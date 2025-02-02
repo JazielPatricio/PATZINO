@@ -180,12 +180,14 @@ button:hover {
 
 /* 📌 Ajustar imágenes en publicaciones */
 .contenido-tweet img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 10px;
+    max-width: 100%;  /* La imagen no será más ancha que su contenedor */
+    max-height: 300px; /* Limita la altura máxima */
+    object-fit: cover; /* Recorta la imagen si es necesario */
+    border-radius: 10px; /* Bordes redondeados */
     display: block;
     margin-top: 10px;
 }
+
 
 /* 📌 Ajustes para la foto de perfil */
 .foto-perfil {
