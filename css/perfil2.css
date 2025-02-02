@@ -97,13 +97,12 @@ button {
     font-size: 16px;
     border: none;
     margin-top: 10px;
-    transition: background 0.3s ease-in-out;
 }
 button:hover {
     background: #0d95e8;
 }
 
-/* 📌 Publicaciones (Diseño tipo Tweet) */
+/* 📌 Publicaciones */
 .publicaciones {
     margin-top: 30px;
     text-align: left;
@@ -130,14 +129,14 @@ button:hover {
 .tweet-header {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 12px; /* Espaciado entre la foto y el nombre */
     margin-bottom: 5px;
 }
 
 /* 📌 Foto de perfil en Publicaciones */
 .tweet-header .perfil img {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid #1da1f2;
@@ -171,6 +170,15 @@ button:hover {
     margin-top: 8px;
 }
 
+/* 📌 Ajustar imágenes en publicaciones */
+.contenido-tweet img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px; /* Bordes redondeados */
+    display: block;
+    margin-top: 10px;
+}
+
 /* 📌 Responsividad */
 @media (max-width: 768px) {
     .contenedor {
@@ -183,8 +191,8 @@ button:hover {
     }
 
     .tweet-header .perfil img {
-        width: 35px;
-        height: 35px;
+        width: 45px;
+        height: 45px;
     }
 }
 
@@ -204,7 +212,7 @@ button:hover {
     }
 
     .tweet-header .perfil img {
-        width: 30px;
-        height: 30px;
+        width: 40px;
+        height: 40px;
     }
 }
