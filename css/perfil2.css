@@ -116,7 +116,7 @@ button:hover {
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 10px;
     display: flex;
-    flex-direction: column; /* ✅ Cambiado para que el contenido quede debajo */
+    flex-direction: column;
     border: 1px solid #e1e8ed;
     transition: background 0.2s ease-in-out;
 }
@@ -125,20 +125,20 @@ button:hover {
     background: #f5f8fa;
 }
 
-/* 📌 Contenedor de la información del usuario */
+/* 📌 Encabezado de la publicación */
 .tweet-header {
     display: flex;
     align-items: center;
-    margin-bottom: 8px; /* Espacio antes del contenido */
+    gap: 12px; /* Espaciado entre la foto y el nombre */
+    margin-bottom: 8px;
 }
 
 /* 📌 Foto de perfil en Publicaciones */
 .tweet-header .perfil img {
     width: 48px;
     height: 48px;
-    border-radius: 50%;
+    border-radius: 50%; /* ✅ Hace la foto circular */
     object-fit: cover;
-    margin-right: 12px;
 }
 
 /* 📌 Información del usuario en Publicaciones */
