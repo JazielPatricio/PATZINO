@@ -116,7 +116,7 @@ button:hover {
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 10px;
     display: flex;
-    align-items: flex-start;
+    flex-direction: column; /* ✅ Cambiado para que el contenido quede debajo */
     border: 1px solid #e1e8ed;
     transition: background 0.2s ease-in-out;
 }
@@ -125,8 +125,15 @@ button:hover {
     background: #f5f8fa;
 }
 
+/* 📌 Contenedor de la información del usuario */
+.tweet-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px; /* Espacio antes del contenido */
+}
+
 /* 📌 Foto de perfil en Publicaciones */
-.tweet .perfil img {
+.tweet-header .perfil img {
     width: 48px;
     height: 48px;
     border-radius: 50%;
@@ -153,10 +160,10 @@ button:hover {
 
 /* 📌 Contenido del Tweet */
 .contenido-tweet {
-    margin-top: 5px;
     font-size: 1em;
     color: #14171a;
     line-height: 1.4;
+    text-align: left;
 }
 
 /* 📌 Responsividad */
@@ -170,7 +177,7 @@ button:hover {
         height: 100px;
     }
 
-    .tweet .perfil img {
+    .tweet-header .perfil img {
         width: 40px;
         height: 40px;
     }
@@ -186,7 +193,7 @@ button:hover {
         flex-direction: column;
     }
 
-    .tweet .perfil img {
+    .tweet-header .perfil img {
         margin-bottom: 10px;
     }
 }
