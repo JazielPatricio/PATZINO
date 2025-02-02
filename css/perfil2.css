@@ -104,12 +104,20 @@ button:hover {
 
 /* 📌 Publicaciones */
 .publicaciones {
-    margin-top: 30px;
+    width: 90%;
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 15px;
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid #e1e8ed;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     text-align: left;
 }
 
 /* 📌 Publicación Estilo Twitter */
 .tweet {
+    width: 100%;
     background: white;
     padding: 15px;
     border-radius: 15px;
@@ -129,7 +137,7 @@ button:hover {
 .tweet-header {
     display: flex;
     align-items: center;
-    gap: 12px; /* Espaciado entre la foto y el nombre */
+    gap: 10px; /* Espaciado entre la foto y el nombre */
     margin-bottom: 5px;
 }
 
@@ -165,7 +173,7 @@ button:hover {
 .contenido-tweet {
     font-size: 1em;
     color: #14171a;
-    line-height: 1.4;
+    line-height: 1.5;
     text-align: left;
     margin-top: 8px;
 }
@@ -174,45 +182,37 @@ button:hover {
 .contenido-tweet img {
     max-width: 100%;
     height: auto;
-    border-radius: 10px; /* Bordes redondeados */
+    border-radius: 10px;
     display: block;
     margin-top: 10px;
 }
 
-/* 📌 Responsividad */
-@media (max-width: 768px) {
-    .contenedor {
-        width: 95%;
-    }
-
-    .foto-perfil img {
-        width: 100px;
-        height: 100px;
-    }
-
-    .tweet-header .perfil img {
-        width: 45px;
-        height: 45px;
-    }
+/* 📌 Ajustes para la foto de perfil */
+.foto-perfil {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
+/* 📌 Media queries para pantallas pequeñas */
 @media (max-width: 400px) {
-    .navbar ul li {
-        display: block;
-        margin: 5px 0;
-    }
-
     .tweet {
-        flex-direction: column;
-    }
-
-    .tweet-header {
-        flex-direction: row;
-        align-items: center;
+        width: 100%;
+        margin: 10px 0;
+        padding: 12px;
     }
 
     .tweet-header .perfil img {
         width: 40px;
         height: 40px;
+    }
+
+    .nombre {
+        font-size: 1.1em;
+    }
+
+    .fecha {
+        font-size: 0.8em;
     }
 }
