@@ -22,15 +22,6 @@ if ($conn->connect_error) {
 // Obtener el ID del usuario desde la sesión
 $usuario_id = $_SESSION["usuario_id"];
 
-// Obtener información del usuario
-$sql = "SELECT nombre, foto_perfil FROM usuarios WHERE id = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $usuario_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$usuario = $result->fetch_assoc();
-$stmt->close();
-
 // Manejo de solicitudes de amistad y eliminación de amigos
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['agregar_amigo'])) {
@@ -65,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     exit();
 }
 
-// Obtener todos los usuarios disponibles para enviar solicitud, excluyendo amigos actuales
+// Obtener todos los usuarios disponibles para enviar solicitud
 $sql = "SELECT id, nombre, foto_perfil FROM usuarios WHERE id != ? AND id NOT IN (
             SELECT CASE WHEN usuario_id = ? THEN amigo_id ELSE usuario_id END 
             FROM amigos WHERE (usuario_id = ? OR amigo_id = ?) AND estado = 'aceptado')";
@@ -184,6 +175,18 @@ $conn->close();
                     <input type="hidden" name="solicitud_id" value="<?= $solicitud['solicitud_id'] ?>">
                     <button type="submit" name="aceptar_amigo">Aceptar</button>
                     <button type="submit" name="rechazar_amigo" class="rechazar">Rechazar</button>
+                </form>
+            </div>
+        <?php endforeach; ?>
+
+        <h2>Lista de Amigos</h2>
+        <?php foreach ($amigos as $amigo): ?>
+            <div class="tarjeta">
+                <img src="<?= htmlspecialchars($amigo['foto_perfil']) ?>" alt="Foto de perfil" class="foto-perfil">
+                <span><?= htmlspecialchars($amigo['nombre']) ?></span>
+                <form method="POST">
+                    <input type="hidden" name="amigo_id" value="<?= $amigo['id'] ?>">
+                    <button type="submit" name="eliminar_amigo" class="rechazar">Eliminar</button>
                 </form>
             </div>
         <?php endforeach; ?>
