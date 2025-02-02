@@ -48,14 +48,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-// Obtener usuarios disponibles para enviar solicitud
-$sql = "SELECT id, nombre FROM usuarios WHERE id != ? AND id NOT IN (
-            SELECT amigo_id FROM amigos WHERE usuario_id = ?
-            UNION 
-            SELECT usuario_id FROM amigos WHERE amigo_id = ?
-        )";
+// Obtener todos los usuarios disponibles para enviar solicitud
+$sql = "SELECT id, nombre FROM usuarios WHERE id != ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("iii", $usuario_id, $usuario_id, $usuario_id);
+$stmt->bind_param("i", $usuario_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $usuarios_disponibles = $result->fetch_all(MYSQLI_ASSOC);
