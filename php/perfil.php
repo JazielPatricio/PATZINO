@@ -74,7 +74,7 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil de Usuario</title>
-    <link rel="stylesheet" href="../css/perfil.css"> <!-- Archivo de estilos globales -->
+    <link rel="stylesheet" href="../css/perfil2.css"> <!-- Archivo de estilos globales -->
 </head>
 <body>
 
