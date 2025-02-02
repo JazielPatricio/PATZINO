@@ -56,6 +56,8 @@ body {
     border-radius: 50%;
     object-fit: cover;
     border: 3px solid #007bff;
+    display: block;
+    margin: 0 auto;
 }
 
 /* 📌 Información del Usuario */
@@ -104,20 +106,12 @@ button:hover {
 
 /* 📌 Publicaciones */
 .publicaciones {
-    width: 90%;
-    max-width: 500px;
-    margin: 20px auto;
-    padding: 15px;
-    background-color: white;
-    border-radius: 10px;
-    border: 1px solid #e1e8ed;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
     text-align: left;
 }
 
 /* 📌 Publicación Estilo Twitter */
 .tweet {
-    width: 100%;
     background: white;
     padding: 15px;
     border-radius: 15px;
@@ -143,8 +137,8 @@ button:hover {
 
 /* 📌 Foto de perfil en Publicaciones */
 .tweet-header .perfil img {
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid #1da1f2;
@@ -173,36 +167,29 @@ button:hover {
 .contenido-tweet {
     font-size: 1em;
     color: #14171a;
-    line-height: 1.5;
+    line-height: 1.4;
     text-align: left;
     margin-top: 8px;
 }
 
-/* 📌 Ajustar imágenes en publicaciones */
+/* 📌 Imagen en Publicaciones - AHORA MÁS PEQUEÑA Y ALINEADA A LA IZQUIERDA */
 .contenido-tweet img {
-    max-width: 100%;  /* La imagen no será más ancha que su contenedor */
-    max-height: 300px; /* Limita la altura máxima */
-    object-fit: cover; /* Recorta la imagen si es necesario */
-    border-radius: 10px; /* Bordes redondeados */
+    width: 250px; /* Imagen más pequeña */
+    height: auto;
+    border-radius: 10px;
     display: block;
-    margin-top: 10px;
+    margin: 10px 0; /* Espaciado para que no esté pegada */
 }
 
+/* 📌 Responsividad */
+@media (max-width: 768px) {
+    .contenedor {
+        width: 95%;
+    }
 
-/* 📌 Ajustes para la foto de perfil */
-.foto-perfil {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-/* 📌 Media queries para pantallas pequeñas */
-@media (max-width: 400px) {
-    .tweet {
-        width: 100%;
-        margin: 10px 0;
-        padding: 12px;
+    .foto-perfil img {
+        width: 100px;
+        height: 100px;
     }
 
     .tweet-header .perfil img {
@@ -210,11 +197,32 @@ button:hover {
         height: 40px;
     }
 
-    .nombre {
-        font-size: 1.1em;
+    .contenido-tweet img {
+        width: 200px; /* Imagen aún más pequeña en móviles */
+    }
+}
+
+@media (max-width: 400px) {
+    .navbar ul li {
+        display: block;
+        margin: 5px 0;
     }
 
-    .fecha {
-        font-size: 0.8em;
+    .tweet {
+        flex-direction: column;
+    }
+
+    .tweet-header {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .tweet-header .perfil img {
+        width: 35px;
+        height: 35px;
+    }
+
+    .contenido-tweet img {
+        width: 150px; /* Más pequeña en pantallas muy pequeñas */
     }
 }
