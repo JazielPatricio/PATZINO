@@ -23,33 +23,47 @@ if ($conn->connect_error) {
 // Obtener el ID del usuario desde la sesión
 $usuario_id = $_SESSION["usuario_id"];
 
-// Primero, obtenemos las publicaciones del usuario autenticado (su propio feed)
-$usuario_publicaciones = [];
-$sql = "SELECT contenido, fecha_publicacion, 'usuario' AS tipo 
-        FROM publicaciones 
-        WHERE usuario_id = ? 
-        UNION 
-        SELECT contenido, fecha_publicacion, 'amigo' AS tipo 
-        FROM publicaciones 
-        WHERE usuario_id IN (
-            SELECT amigo_id FROM amigos WHERE usuario_id = ? AND estado = 'aceptado'
-            UNION
-            SELECT usuario_id FROM amigos WHERE amigo_id = ? AND estado = 'aceptado'
-        )
-        ORDER BY fecha_publicacion DESC";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("iii", $usuario_id, $usuario_id, $usuario_id);
-$stmt->execute();
-$result = $stmt->get_result();
-
-// Crear un array para almacenar todas las publicaciones (usuario + amigos)
-$publicaciones = [];
-while ($row = $result->fetch_assoc()) {
-    $publicaciones[] = $row;
+// Manejo de la solicitud de amistad (enviar, aceptar, rechazar)
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['agregar_amigo'])) {
+        $amigo_id = $_POST['amigo_id'];
+        $sql = "INSERT INTO amigos (usuario_id, amigo_id, estado) VALUES (?, ?, 'pendiente')";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ii", $usuario_id, $amigo_id);
+        $stmt->execute();
+        echo "Solicitud de amistad enviada.";
+    }
+    if (isset($_POST['aceptar_amigo'])) {
+        $solicitud_id = $_POST['solicitud_id'];
+        $sql = "UPDATE amigos SET estado = 'aceptado' WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $solicitud_id);
+        $stmt->execute();
+    }
+    if (isset($_POST['rechazar_amigo'])) {
+        $solicitud_id = $_POST['solicitud_id'];
+        $sql = "DELETE FROM amigos WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $solicitud_id);
+        $stmt->execute();
+    }
 }
 
-$stmt->close();
-$conn->close();
+// Mostrar usuarios disponibles para amistad
+$sql = "SELECT id, nombre FROM usuarios WHERE id != ? AND id NOT IN (SELECT amigo_id FROM amigos WHERE usuario_id = ?)";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("ii", $usuario_id, $usuario_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$usuarios_disponibles = $result->fetch_all(MYSQLI_ASSOC);
+
+// Obtener solicitudes pendientes
+$sql = "SELECT amigos.id as solicitud_id, usuarios.nombre FROM amigos JOIN usuarios ON amigos.usuario_id = usuarios.id WHERE amigo_id = ? AND estado = 'pendiente'";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $usuario_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$solicitudes_pendientes = $result->fetch_all(MYSQLI_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -57,32 +71,26 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio</title>
-    <link rel="stylesheet" href="../css/perfil.css">
+    <title>Amigos</title>
 </head>
 <body>
-    <header>
-        <h1>Inicio</h1>
-        <a href="perfil.php">Mi perfil</a> | 
-        <a href="amigos.php">Mis Amigos</a>
-        <a href="logout.php">Cerrar sesión</a>
-    </header>
+    <h1>Amigos</h1>
+    <h2>Agregar amigos</h2>
+    <?php foreach ($usuarios_disponibles as $usuario): ?>
+        <form method="POST">
+            <input type="hidden" name="amigo_id" value="<?= $usuario['id'] ?>">
+            <button type="submit" name="agregar_amigo">Agregar a <?= $usuario['nombre'] ?></button>
+        </form>
+    <?php endforeach; ?>
 
-    <!-- Mostrar publicaciones combinadas -->
-    <section class="publicaciones">
-        <h2>Todas las publicaciones</h2>
-        <?php
-        if (count($publicaciones) > 0) {
-            foreach ($publicaciones as $publicacion) {
-                echo "<div class='tweet'>";
-                echo "<p>" . nl2br($publicacion['contenido']) . "</p>";
-                echo "<span class='fecha'>" . $publicacion['fecha_publicacion'] . "</span>";
-                echo "</div>";
-            }
-        } else {
-            echo "<p>No hay publicaciones para mostrar.</p>";
-        }
-        ?>
-    </section>
+    <h2>Solicitudes de amistad</h2>
+    <?php foreach ($solicitudes_pendientes as $solicitud): ?>
+        <form method="POST">
+            <p><?= $solicitud['nombre'] ?> quiere ser tu amigo.</p>
+            <input type="hidden" name="solicitud_id" value="<?= $solicitud['solicitud_id'] ?>">
+            <button type="submit" name="aceptar_amigo">Aceptar</button>
+            <button type="submit" name="rechazar_amigo">Rechazar</button>
+        </form>
+    <?php endforeach; ?>
 </body>
 </html>
