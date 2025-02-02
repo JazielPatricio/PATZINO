@@ -130,21 +130,23 @@ button:hover {
     display: flex;
     align-items: center;
     gap: 12px; /* Espaciado entre la foto y el nombre */
-    margin-bottom: 8px;
+    margin-bottom: 5px;
 }
 
 /* 📌 Foto de perfil en Publicaciones */
 .tweet-header .perfil img {
-    width: 48px;
-    height: 48px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%; /* ✅ Hace la foto circular */
     object-fit: cover;
+    border: 2px solid #1da1f2;
 }
 
 /* 📌 Información del usuario en Publicaciones */
 .info-perfil {
     display: flex;
     flex-direction: column;
+    justify-content: center;
 }
 
 /* 📌 Nombre y Fecha */
@@ -152,6 +154,7 @@ button:hover {
     font-weight: bold;
     color: #1da1f2;
     font-size: 1em;
+    margin-bottom: 2px;
 }
 .fecha {
     font-size: 0.85em;
@@ -164,6 +167,7 @@ button:hover {
     color: #14171a;
     line-height: 1.4;
     text-align: left;
+    margin-top: 8px;
 }
 
 /* 📌 Responsividad */
@@ -178,8 +182,8 @@ button:hover {
     }
 
     .tweet-header .perfil img {
-        width: 40px;
-        height: 40px;
+        width: 45px;
+        height: 45px;
     }
 }
 
@@ -193,7 +197,13 @@ button:hover {
         flex-direction: column;
     }
 
+    .tweet-header {
+        flex-direction: row;
+        align-items: center;
+    }
+
     .tweet-header .perfil img {
-        margin-bottom: 10px;
+        width: 40px;
+        height: 40px;
     }
 }
