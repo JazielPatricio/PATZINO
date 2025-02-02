@@ -113,76 +113,76 @@ button:hover {
     margin-top: 30px;
 }
 
+/* 📌 Publicación estilo Facebook */
 .tweet {
     background: white;
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0px 2px 4px rgba(0,0,0,0.2);
     margin-bottom: 10px;
-}
-
-/* 📌 Perfil dentro del tweet */
-.perfil {
     display: flex;
-    align-items: center;
-    margin-bottom: 10px;
+    align-items: flex-start; /* Alinea la imagen y el texto */
+    text-align: left;
 }
 
+/* 📌 Foto de perfil en publicaciones (estilo Facebook) */
 .foto-perfil-tweet {
-    width: 50px;
-    height: 50px;
+    width: 40px;   /* Tamaño reducido */
+    height: 40px;
     border-radius: 50%;
     object-fit: cover;
     margin-right: 10px;
 }
 
+/* 📌 Contenedor de información de usuario en el post */
 .info-perfil {
     display: flex;
     flex-direction: column;
 }
 
+/* 📌 Nombre del usuario */
 .nombre {
     font-weight: bold;
     color: #1da1f2;
+    font-size: 14px;
 }
 
+/* 📌 Fecha del post */
 .fecha {
-    font-size: 0.9em;
+    font-size: 12px;
     color: #657786;
 }
 
 /* 📌 Contenido del Tweet */
 .contenido-tweet {
-    margin-top: 10px;
-}
-
-.contenido-tweet p {
-    font-size: 1em;
+    margin-top: 5px;
+    font-size: 14px;
     color: #14171a;
     line-height: 1.5;
 }
 
-/* 📌 Media Queries - Responsive */
+/* 📌 Responsive para móviles */
 @media (max-width: 400px) {
     .tweet {
         width: 100%;
         margin: 10px 0;
+        padding: 10px;
     }
 
     .foto-perfil-tweet {
-        width: 40px;
-        height: 40px;
+        width: 35px;
+        height: 35px;
     }
 
     .nombre {
-        font-size: 1em;
+        font-size: 13px;
     }
 
     .fecha {
-        font-size: 0.8em;
+        font-size: 11px;
     }
 
-    .contenido-tweet p {
-        font-size: 0.9em;
+    .contenido-tweet {
+        font-size: 13px;
     }
 }
