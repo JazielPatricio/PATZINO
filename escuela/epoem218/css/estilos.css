@@ -4,8 +4,13 @@
 }
 
 .Texto-bienvenida{
+    background-color: #0f1d48;
     color: #FFFFFF;
     text-align: center;
+    border-radius: 20px;
+    padding: 13px;
+    margin:  20px 190px;
+    display: grid;
 }
 
 .Subtitulo-Avisos{
