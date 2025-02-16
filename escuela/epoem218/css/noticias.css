@@ -1,0 +1,86 @@
+/* Contenedor de la noticia */
+.noticia {
+    background: #1a1a2e;
+    color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    max-width: 700px;
+    margin: 20px auto;
+    text-align: center;
+    overflow: hidden;
+}
+
+/* Encabezado de la noticia */
+.noticia-header {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.noticia h2 {
+    font-size: 22px;
+    color: #f8b400;
+    margin-bottom: 5px;
+}
+
+.fecha {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Imagen destacada */
+.noticia-img {
+    width: 100%;
+    max-height: 280px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+/* Cuerpo del aviso */
+.noticia-body p {
+    font-size: 16px;
+    color: #e3e3e3;
+    line-height: 1.7;
+    margin-bottom: 10px;
+}
+
+/* Pie de la noticia */
+.noticia-footer {
+    margin-top: 20px;
+}
+
+/* Botón moderno */
+.btn-mas-info {
+    display: inline-block;
+    background: #f8b400;
+    color: #1a1a2e;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-mas-info:hover {
+    background: #ffcc00;
+    transform: scale(1.05);
+}
+
+/* Diseño responsivo */
+@media screen and (max-width: 768px) {
+    .noticia {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .noticia h2 {
+        font-size: 20px;
+    }
+
+    .noticia-body p {
+        font-size: 14px;
+    }
+}

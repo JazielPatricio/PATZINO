@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/menu.css">
+    <link rel="stylesheet" href="css/carrucel.css">
+    <link rel="stylesheet" href="css/calendario.css">
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="css/noticias.css">
+    
+</head>
+<body>
+
+    <h1 class="Texto-h1-titulo">Centro de Estudios Tecnologicos, Industrial y Servicios #18</h1>
+
+    <!--Menu de Navegación Responsive-->
+    <nav>
+        <div class="icon" onclick="toggleMenu()">☰</div>
+        
+        <ul id="menu">
+            <li><a href="index.html"><i>🏠</i>Inicio</a></li>
+            <li><a href="noticias.html"><i>ℹ️</i>Noticias</a></li>
+            <li class="submenu">
+                <a href="oferta-educativa.html"><i>📧</i>Oferta Educativa</a>
+                <ul class="dropdown">
+                    <li><a href="#">Enfermería</a></li>
+                    <li><a href="#">Mecánica</a></li>
+                    <li><a href="#">Electrónica</a></li>
+                    <li><a href="#">Programación</a></li>
+                </ul>
+            </li>
+            <li><a href="#"><i>⚙️</i>Servicios</a></li>
+        </ul>
+    </nav>
+
+
+
+    <!--Carrusel de imagenes-->
+
+    <div class="carrusel">
+        <div class="imagenes">
+            <img src="imagenes/escuela.jpg" alt="Imagen 1">
+            <img src="imagenes/escuela1.jpg" alt="Imagen 2">
+            <img src="imagenes/escuela2.jpg" alt="Imagen 3">
+            <img src="imagenes/escuela3.jpg" alt="Imagen 4">
+        </div>
+        <button class="prev">&#10094;</button>
+        <button class="next">&#10095;</button>
+    </div>
+
+    <!-- Contenedor principal con la clase .centered -->
+<div class="centered">
+    <!-- Calendario de la escuela -->
+    <button class="BotonCalendario" onclick="showCalendar()">📅 Mostrar Calendario</button>
+
+    <div id="calendar">
+        <div class="calendar-header">
+            <span id="monthName">Enero 2025</span>
+            <button class="cerrarCalendario" onclick="closeCalendar()">Cerrar</button>
+        </div>
+        <table id="calendarTable">
+            <thead>
+                <tr>
+                    <th>Dom</th>
+                    <th>Lun</th>
+                    <th>Mar</th>
+                    <th>Mié</th>
+                    <th>Jue</th>
+                    <th>Vie</th>
+                    <th>Sáb</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Aquí se llenarán los días -->
+            </tbody>
+        </table>
+        <div class="NavegacionCalendario">
+            <button class="BotonCalendario" onclick="changeMonth(-1)">Mes Anterior</button>
+            <button class="BotonCalendario" onclick="changeMonth(1)">Mes Siguiente</button>
+        </div>
+    </div>
+
+    <!-- Ventana emergente de actividad -->
+    <div id="activityModal">
+        <div id="activityModalContent">
+            <h3>Actividad</h3>
+            <p id="activityDetails">Detalles de la actividad aquí...</p>
+            <button class="cerrarActividad" onclick="closeModal()">Cerrar</button>
+        </div>
+    </div>
+</div>
+
+<h2 class="Subtitulo-Avisos">Avisos Importantes</h2>
+<!--Este es el aviso que aparece al inicio de la pagina-->
+<div class="aviso">
+    <div class="aviso-contenido">
+        <h3>📢 ¡Atención, Comunidad Escolar!</h3>
+        <p>Queridos estudiantes y padres de familia, les informamos que <strong>el próximo lunes 19 de febrero</strong> no habrá clases debido a jornada de capacitación docente.</p>
+        <p>Para más información, consulte la sección de noticias en nuestra página web.</p>
+        <button class="cerrar-aviso" onclick="cerrarAviso()">Entendido</button>
+    </div>
+</div>
+<!--Aqui estan los avisos ya desarrollados para la plataforma-->
+<div class="noticia">
+    <div class="noticia-header">
+        <h2>📢 Suspensión de Clases - Lunes 19 de Febrero</h2>
+        <p class="fecha">Publicado el: 16 de febrero de 2025</p>
+    </div>
+    <img src="suspension-clases.jpg" alt="Aviso de suspensión de clases" class="noticia-img">
+    <div class="noticia-body">
+        <p>📌 <strong>Estimados padres de familia y alumnos,</strong></p>
+        <p>Les informamos que el <strong>lunes 19 de febrero</strong> no habrá clases debido a una jornada de capacitación docente.</p>
+        <p>Les pedimos estar atentos a futuros comunicados a través de nuestra página web y redes sociales oficiales.</p>
+        <p>¡Gracias por su comprensión! 😊</p>
+    </div>
+    <div class="noticia-footer">
+        <a href="#" class="btn-mas-info">Más Información</a>
+    </div>
+</div>
+
+
+
+
+    <!-- Scripts -->
+    
+    <script src="js/menu.js"></script>
+    <script src="js/carrusel.js"></script>
+    <script src="js/calendario.js"></script>
+    <script src="js/aviso-entrada.js"></script>
+</body>
+</html>

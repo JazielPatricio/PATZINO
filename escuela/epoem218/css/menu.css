@@ -1,0 +1,204 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #233a72;
+}
+
+/* Estilos del menú */
+nav {
+    background-color: #0f1d48;
+    padding: 10px 20px;
+    margin: 0 20px; /* Margen a los lados */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav ul li {
+    display: inline-block;
+    position: relative; /* Necesario para los submenús */
+}
+
+nav ul li a {
+    display: block;
+    padding: 12px 18px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+nav ul li a:hover {
+    background-color: #233a72;
+    transform: scale(1.1);
+}
+
+/* Estilo de los iconos */
+nav ul li a i {
+    font-size: 20px;
+    margin-right: 8px;
+}
+
+/* Estilos para submenús */
+.submenu {
+    position: relative;
+}
+
+.submenu .dropdown {
+    display: block;
+    overflow: hidden; /* Ocultamos el contenido que excede */
+    max-height: 0; /* Establecemos altura inicial 0 */
+    background-color: #0f1d48;
+    width: 200px; /* Ancho del submenú */
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: max-height 0.4s ease-out; /* Transición suave */
+    position: absolute;
+    top: 100%; /* Lo posicionamos justo debajo del ítem padre */
+    left: 50%;
+    transform: translateX(-50%); /* Centra el submenú */
+    z-index: 10;
+}
+
+.submenu:hover .dropdown {
+    max-height: 300px; /* Expandimos el submenú en pantallas grandes */
+}
+
+.dropdown li {
+    display: block; /* Aseguramos que los ítems estén apilados verticalmente */
+}
+
+.dropdown li a {
+    padding: 12px;
+    color: white;
+    text-align: center;
+    border-bottom: 1px solid #233a72;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.dropdown li a:hover {
+    background-color: #233a72;
+}
+
+.dropdown li:last-child a {
+    border-bottom: none;
+}
+
+/* Menú responsivo */
+@media screen and (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+    }
+    
+    nav ul li {
+        width: 100%;
+    }
+    
+    nav ul li a {
+        padding: 12px;
+        width: 100%;
+    }
+    
+    .icon {
+        display: block;
+        font-size: 30px;
+        color: white;
+        cursor: pointer;
+    }
+
+    nav ul {
+        display: none;
+        width: 100%;
+    }
+    
+    nav ul li {
+        width: 100%;
+    }
+
+    .submenu .dropdown {
+        display: none; /* Ocultamos el submenú en pantallas pequeñas */
+    }
+
+    .submenu.active .dropdown {
+        display: block; /* Muestra el submenú cuando se activa */
+        max-height: 300px;
+    }
+
+    .dropdown li a {
+        padding: 12px;
+        text-align: center; /* Centramos el texto del submenú */
+    }
+}
+
+.menu-responsive {
+    display: block;
+}
+
+/* Menú en pantallas grandes (>768px) */
+@media screen and (min-width: 769px) {
+    .icon {
+        display: none; /* El icono de hamburguesa desaparece en pantallas grandes */
+    }
+
+    nav ul {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .submenu {
+        position: relative;
+    }
+
+    .submenu:hover .dropdown {
+        max-height: 300px;
+        display: block;
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%); /* Centra el submenú */
+    }
+
+    .submenu .dropdown {
+        display: block; /* Aseguramos que el submenú esté visible en pantallas grandes */
+    }
+
+    .dropdown {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%); /* Centra el submenú */
+        width: 200px;
+    }
+
+    .dropdown li {
+        display: block; /* Aseguramos que los ítems estén apilados verticalmente */
+    }
+
+    .dropdown li a {
+        padding: 12px;
+        text-align: center;
+        
+    }
+
+    .dropdown li a:hover {
+        background-color: #233a72;
+    }
+
+    .dropdown li:last-child a {
+        border-bottom: none;
+    }
+}

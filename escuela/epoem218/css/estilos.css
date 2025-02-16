@@ -1,0 +1,58 @@
+.Texto-h1-titulo{
+    color: #FFFFFF;
+    text-align: center;
+}
+
+.Subtitulo-Avisos{
+    color: #FFFFFF;
+    text-align: center;
+}
+
+.aviso {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 20px;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    z-index: 1000;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.aviso h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.aviso p {
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.cerrar-aviso {
+    position: relative;
+    margin-top: 18px;
+    background: #ffcc00;
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.cerrar-aviso:hover {
+    background: #ffdb4d;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
